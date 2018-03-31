@@ -2,12 +2,40 @@ package com.znow.gamecore;
 
 import com.znow.gamecore.graphics.Display;
 
-public class Main {
+public class Main
+{
 	
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
+	public boolean game_running;
+	private Display display;
+	
+	public static void main(String[] args)
+	{
+		Main game = new Main();
+		game.run();
+	}
 
-		Display display = new Display();
+	void run()
+	{
+		init();
+
+		while (game_running && display.window.isDisplayable())
+		{
+			
+		}
+		
+		destroy();
+	}
+
+	void init()
+	{
+		display = new Display("Testing", 680, 800);
+
+		game_running = true;
+	}
+
+	void destroy()
+	{
+		System.out.println("Game has ended");
 	}
 	
-}
+};

@@ -2,13 +2,18 @@ package com.znow.gamecore.graphics;
 
 import javax.swing.*;
 
-public class Display {
+public class Display
+{
 
-	public Display() {
-		JFrame frame = new JFrame("Hello World");
-		frame.setSize(500, 500);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+	public JFrame window;
+	
+	public Display(String title, int width, int height)
+	{
+		window = new JFrame(title);
+		window.setSize(width, height);
+		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 	}
 
 };
