@@ -1,6 +1,7 @@
 package com.znow.gamecore;
 
 import com.znow.gamecore.graphics.Display;
+import com.znow.gamecore.graphics.Renderer;
 
 public class Main
 {
@@ -18,9 +19,14 @@ public class Main
 	{
 		init();
 
+		int i = 0;
 		while (game_running && display.window.isDisplayable())
 		{
-			
+			if (i < 10)
+			{
+				display.renderer.render(i, i);
+				i++;
+			}
 		}
 		
 		destroy();
@@ -28,7 +34,7 @@ public class Main
 
 	void init()
 	{
-		display = new Display("Testing", 680, 800);
+		display = new Display("Testing", 600, 800);
 
 		game_running = true;
 	}
