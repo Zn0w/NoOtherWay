@@ -1,15 +1,12 @@
 package com.znow.gamecore.entity;
 
-abstract class entity
+import java.awt.Graphics2D;
+
+public abstract class Entity
 {
 
-	protected int x, y, width, height;
+	public int x, y, width, height;
 
-	abstract void update();
-
-	protected void draw()
-	{
-		
-	}
+	public abstract void draw(Graphics2D graphics);
 
 };

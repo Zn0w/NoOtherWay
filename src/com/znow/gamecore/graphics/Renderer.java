@@ -2,30 +2,36 @@ package com.znow.gamecore.graphics;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
-class Renderer extends JPanel
+import com.znow.gamecore.entity.Entity;
+
+public class Renderer extends JPanel
 {
 	
 	int x, y;
 	
 	public Renderer(Display display)
 	{
-		display.window.setContentPane(this);
+		//display.window.setContentPane(this);
 	}
 
-	void render(int x, int y)
+	public void render(Entity entity/*List<Entity> entities*/)
 	{
-		this.x = x;
-		this.y = y;
+		x = (int) entity.x;
+		y = (int) entity.y;
+
+		/*for (Entity entity : entities)
+		{
+			renderer.render(Color.GREEN, entity.x, entity.y);
+		}*/
 	}
 
 	@Override
 	public void paintComponent(Graphics g)
 	{
-		//display.window.paintComponent(g);
-		
 		g.setColor(Color.GREEN);
-		g.fillRect(x, y, 200, 200);
+		g.fillRect(x, y, 50, 50);
 	}
 
 };

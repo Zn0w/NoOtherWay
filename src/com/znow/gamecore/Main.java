@@ -1,13 +1,20 @@
 package com.znow.gamecore;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.znow.gamecore.graphics.Display;
-import com.znow.gamecore.graphics.Renderer;
+
+import com.znow.gamecore.entity.Entity;
 
 public class Main
 {
 	
 	public boolean game_running;
 	private Display display;
+
+	//private Entity player; Player player;
+	private List<Entity> entities;
 	
 	public static void main(String[] args)
 	{
@@ -19,14 +26,11 @@ public class Main
 	{
 		init();
 
-		int i = 0;
 		while (game_running && display.window.isDisplayable())
 		{
-			if (i < 10)
-			{
-				display.renderer.render(i, i);
-				i++;
-			}
+			update();
+			//display.clear();
+			//display.render();
 		}
 		
 		destroy();
@@ -37,6 +41,14 @@ public class Main
 		display = new Display("Testing", 600, 800);
 
 		game_running = true;
+
+		entities = new ArrayList<Entity>();
+	}
+
+	void update()
+	{
+		// player.update();
+		// for entities entity.update();
 	}
 
 	void destroy()
