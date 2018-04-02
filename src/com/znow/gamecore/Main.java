@@ -28,9 +28,7 @@ public class Main
 
 		while (game_running && display.window.isDisplayable())
 		{
-			update();
-			//display.clear();
-			//display.render();
+			display.render(entities);
 		}
 		
 		destroy();
