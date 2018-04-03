@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.znow.gamecore.graphics.Display;
 
-import com.znow.gamecore.entity.Entity;
+import com.znow.gamecore.entity.*;
 
 public class Main
 {
@@ -41,6 +41,10 @@ public class Main
 		game_running = true;
 
 		entities = new ArrayList<Entity>();
+		
+		// Player init
+		Player player = new Player(300, 400, 120, 80);
+		entities.add(player);
 	}
 
 	void update()

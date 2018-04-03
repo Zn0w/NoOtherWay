@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import com.znow.gamecore.entity.Entity;
 
+@SuppressWarnings("serial")
 public class Display extends JPanel
 {
 
@@ -29,7 +29,7 @@ public class Display extends JPanel
 	{
 		entity_buffer = entities;
 		repaint();
-		entity_buffer = null;
+		//entity_buffer = null;
 	}
 	
 	@Override
@@ -38,10 +38,12 @@ public class Display extends JPanel
 		// Clear display
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, window.getWidth(), window.getHeight());
+
+		g.setColor(Color.GREEN);
 		
 		for (Entity entity : entity_buffer)
 		{
-			
+			g.fillRect(entity.x, entity.y, entity.width, entity.height);
 		}
 	}
 
