@@ -28,6 +28,8 @@ public class Main
 
 		while (game_running && display.window.isDisplayable())
 		{
+			update();
+			
 			display.render(entities);
 		}
 		

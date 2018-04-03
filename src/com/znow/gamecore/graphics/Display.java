@@ -45,7 +45,7 @@ public class Display extends JPanel
 		
 		for (Entity entity : entity_buffer)
 		{
-			g.fillRect(entity.x, entity.y, entity.width, entity.height);
+			g.fillRect((int) entity.x, (int) entity.y, (int) entity.width, (int) entity.height);
 		}
 	}
 

@@ -5,9 +5,9 @@ package com.znow.gamecore.entity;
 public abstract class Entity
 {
 
-	public int x, y, width, height;
+	public float x, y, width, height;
 	
-	public Entity(int x, int y, int width, int height)
+	public Entity(float x, float y, float width, float height)
 	{
 		this.x = x;
 		this.y = y;
