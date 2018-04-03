@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.List;
 
 import com.znow.gamecore.entity.Entity;
+import com.znow.gamecore.input.*;
 
 @SuppressWarnings("serial")
 public class Display extends JPanel
@@ -22,6 +23,7 @@ public class Display extends JPanel
 		window.setContentPane(this);
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		window.setLocationRelativeTo(null);
+		window.addKeyListener(new Keyboard());
 		window.setVisible(true);
 	}
 

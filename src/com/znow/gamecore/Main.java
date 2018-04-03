@@ -49,8 +49,10 @@ public class Main
 
 	void update()
 	{
-		// player.update();
-		// for entities entity.update();
+		for (Entity entity : entities)
+		{
+			entity.update();
+		}
 	}
 
 	void destroy()
