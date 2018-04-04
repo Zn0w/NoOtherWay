@@ -26,11 +26,20 @@ public class Main
 	{
 		init();
 
+		float previous_time = 0.0f;
+		float elapsed_time = 0.0f;
+		
 		while (game_running && display.window.isDisplayable())
 		{
-			update();
+			//previous_time = System.currentTimeMillis();
+			//System.out.println("Elapsed time: " + elapsed_time);
+			
+			update(elapsed_time);
 			
 			display.render(entities);
+			
+			elapsed_time = System.currentTimeMillis() - previous_time;
+			previous_time = System.currentTimeMillis();
 		}
 		
 		destroy();
@@ -49,11 +58,11 @@ public class Main
 		entities.add(player);
 	}
 
-	void update()
+	void update(float time)
 	{
 		for (Entity entity : entities)
 		{
-			entity.update();
+			entity.update(time);
 		}
 	}
 

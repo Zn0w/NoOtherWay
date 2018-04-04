@@ -17,6 +17,6 @@ public abstract class Entity
 
 	//public abstract void draw(Graphics g); I may not need it
 	
-	public abstract void update();
+	public abstract void update(float time);
 
 };

@@ -16,17 +16,17 @@ public class Player extends Entity
 	}
 	
 	@Override
-	public void update()
+	public void update(float time)
 	{
 		x += speed_x;
 		//y+= speed_y;
 		
-		if (x >= 600 || x <= 0)
+		if (x + width >= 600 || x <= 0)
 			speed_x *= -1;
 		
 		if (Keyboard.is_key_pressed(KeyEvent.VK_F))
 		{
-			y += 0.01f;
+			y += 0.01f * time;
 			System.out.println("X: " + x + " Y: " + y);
 		}
 	}
