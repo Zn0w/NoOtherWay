@@ -1,26 +1,27 @@
 package com.znow.gamecore;
 
-// import thread	
+import com.znow.gamecore.graphics.Display;
 
 public class Main implements Runnable
 {
 	
-	public static int width = 300;
+	public static int width = 150;
 	public static int height = width * 16 / 9;
 	public static int scale = 3;
 
 	private Thread thread;
 	private boolean game_running;
 	
+	Display display;
+	
 	public static void main(String[] args)
 	{
 		Main game = new Main();
-		game.run();
+		game.startGame();
 	}
 
 	public synchronized void startGame()
 	{
-		game_running = true;
 		thread= new Thread(this);
 		thread.start();
 	}
@@ -51,7 +52,8 @@ public class Main implements Runnable
 
 	public void init()
 	{
-
+		game_running = true;
+		display = new Display("No Other Way <Game by Zn0w>", width * scale, height * scale);
 	}
 
 	public void destroy()

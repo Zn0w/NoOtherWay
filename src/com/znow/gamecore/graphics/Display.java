@@ -8,40 +8,20 @@ public class Display extends Canvas
 {
 
 	public JFrame window;
-
-	private List<Entity> entity_buffer;
 	
 	public Display(String title, int width, int height)
 	{
+		setPrefferedSize(new Dimension(width, height));
+		
 		window = new JFrame(title);
-		window.setSize(width, height);
-		window.setContentPane(this);
+		window.add(this);
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		window.setLocationRelativeTo(null);
-		window.addKeyListener(new Keyboard());
+		window.setResizable(false);
+		//window.addKeyListener(new Keyboard());
+		window.setTitle(title);
+		window.pack();
 		window.setVisible(true);
-	}
-
-	public void render(List<Entity> entities)
-	{
-		entity_buffer = entities;
-		repaint();
-		//entity_buffer = null;
-	}
-	
-	@Override
-	public void paintComponent(Graphics g)
-	{
-		// Clear display
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, window.getWidth(), window.getHeight());
-
-		g.setColor(Color.GREEN);
-		
-		for (Entity entity : entity_buffer)
-		{
-			g.fillRect((int) entity.x, (int) entity.y, (int) entity.width, (int) entity.height);
-		}
 	}
 
 };
