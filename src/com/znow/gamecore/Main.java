@@ -1,18 +1,16 @@
 package com.znow.gamecore;
 
-import java.util.List;
-import java.util.ArrayList;
+// import thread	
 
-import com.znow.gamecore.graphics.Display;
-
-import com.znow.gamecore.entity.*;
-
-public class Main
+public class Main implements Runnable
 {
 	
 	public static int width = 300;
 	public static int height = width * 16 / 9;
 	public static int scale = 3;
+
+	private Thread thread;
+	private boolean game_running;
 	
 	public static void main(String[] args)
 	{
@@ -20,31 +18,45 @@ public class Main
 		game.run();
 	}
 
-	void run()
+	public synchronized void startGame()
+	{
+		game_running = true;
+		thread= new Thread(this);
+		thread.start();
+	}
+
+	public synchronized void stopGame()
+	{
+		try
+		{
+			thread.join();
+		} catch(Exception e)
+		{
+			e.printStackTrace(System.out);
+		}
+	}
+
+	@Override
+	public void run()
 	{
 		init();
 		
-		while (true)
+		while (game_running)
 		{
-			
+
 		}
-		
+
 		destroy();
 	}
 
-	void init()
+	public void init()
 	{
-		
+
 	}
 
-	void update(float time)
+	public void destroy()
 	{
-		
-	}
 
-	void destroy()
-	{
-		
 	}
 	
 };

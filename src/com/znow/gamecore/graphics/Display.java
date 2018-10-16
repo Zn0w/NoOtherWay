@@ -3,13 +3,8 @@ package com.znow.gamecore.graphics;
 import javax.swing.*;
 import java.awt.*;
 
-import java.util.List;
-
-import com.znow.gamecore.entity.Entity;
-import com.znow.gamecore.input.*;
-
 @SuppressWarnings("serial")
-public class Display extends JPanel
+public class Display extends Canvas
 {
 
 	public JFrame window;
