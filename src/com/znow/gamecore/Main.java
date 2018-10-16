@@ -10,11 +10,9 @@ import com.znow.gamecore.entity.*;
 public class Main
 {
 	
-	public boolean game_running;
-	private Display display;
-
-	//private Entity player; Player player;
-	private List<Entity> entities;
+	public static int width = 300;
+	public static int height = width * 16 / 9;
+	public static int scale = 3;
 	
 	public static void main(String[] args)
 	{
@@ -25,21 +23,10 @@ public class Main
 	void run()
 	{
 		init();
-
-		float previous_time = 0.0f;
-		float elapsed_time = 0.0f;
 		
-		while (game_running && display.window.isDisplayable())
+		while (true)
 		{
-			//previous_time = System.currentTimeMillis();
-			//System.out.println("Elapsed time: " + elapsed_time);
 			
-			update(elapsed_time);
-			
-			display.render(entities);
-			
-			elapsed_time = System.currentTimeMillis() - previous_time;
-			previous_time = System.currentTimeMillis();
 		}
 		
 		destroy();
@@ -47,28 +34,17 @@ public class Main
 
 	void init()
 	{
-		display = new Display("Testing", 600, 800);
-
-		game_running = true;
-
-		entities = new ArrayList<Entity>();
 		
-		// Player init
-		Player player = new Player(300, 400, 120, 80);
-		entities.add(player);
 	}
 
 	void update(float time)
 	{
-		for (Entity entity : entities)
-		{
-			entity.update(time);
-		}
+		
 	}
 
 	void destroy()
 	{
-		System.out.println("Game has ended");
+		
 	}
 	
 };
