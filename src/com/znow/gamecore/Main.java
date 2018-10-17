@@ -42,23 +42,36 @@ public class Main implements Runnable
 	{
 		init();
 		
-		while (game_running)
+		while (game_running && display.window.isDisplayable())
 		{
-
+			update();
+			render();
 		}
 
 		destroy();
 	}
 
-	public void init()
+	private void update()
+	{
+		System.out.println("Update game");
+	}
+
+	private void render()
+	{
+		System.out.println("Render game");
+	}
+
+	private void init()
 	{
 		game_running = true;
 		display = new Display("No Other Way <Game by Zn0w>", width * scale, height * scale);
+
+		System.out.println("Init game");
 	}
 
-	public void destroy()
+	private void destroy()
 	{
-
+		System.out.println("Destroy game");
 	}
 	
 };

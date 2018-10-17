@@ -11,7 +11,7 @@ public class Display extends Canvas
 	
 	public Display(String title, int width, int height)
 	{
-		setPrefferedSize(new Dimension(width, height));
+		setPreferredSize(new Dimension(width, height));
 		
 		window = new JFrame(title);
 		window.add(this);
