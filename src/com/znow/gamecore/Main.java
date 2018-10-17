@@ -1,11 +1,14 @@
 package com.znow.gamecore;
 
 import com.znow.gamecore.graphics.Display;
+import com.znow.gamecore.entity.*;
+
+import java.util.ArrayList;
 
 public class Main implements Runnable
 {
 	
-	public static int width = 150;
+	public static int width = 120;
 	public static int height = width * 16 / 9;
 	public static int scale = 3;
 
@@ -13,6 +16,8 @@ public class Main implements Runnable
 	private boolean game_running;
 	
 	Display display;
+
+	ArrayList<Entity> entities = new ArrayList<Entity>();
 	
 	public static void main(String[] args)
 	{
@@ -45,7 +50,7 @@ public class Main implements Runnable
 		while (game_running && display.window.isDisplayable())
 		{
 			update();
-			render();
+			display.render(entities);
 		}
 
 		destroy();
@@ -53,18 +58,16 @@ public class Main implements Runnable
 
 	private void update()
 	{
-		System.out.println("Update game");
-	}
-
-	private void render()
-	{
-		System.out.println("Render game");
+		for (Entity entity : entities)
+			entity.update(1.0f); // To add delta handling
 	}
 
 	private void init()
 	{
 		game_running = true;
 		display = new Display("No Other Way <Game by Zn0w>", width * scale, height * scale);
+
+		entities.add(new Player(50, 50, 50, 50));
 
 		System.out.println("Init game");
 	}

@@ -1,7 +1,5 @@
 package com.znow.gamecore.entity;
 
-//import java.awt.Graphics;
-
 public abstract class Entity
 {
 
@@ -14,8 +12,6 @@ public abstract class Entity
 		this.width = width;
 		this.height = height;
 	}
-
-	//public abstract void draw(Graphics g); I may not need it
 	
 	public abstract void update(float time);
 

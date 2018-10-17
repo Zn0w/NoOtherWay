@@ -18,7 +18,7 @@ public class Player extends Entity
 	@Override
 	public void update(float time)
 	{
-		x += speed_x;
+		/*x += speed_x;
 		//y+= speed_y;
 		
 		if (x + width >= 600 || x <= 0)
@@ -28,7 +28,10 @@ public class Player extends Entity
 		{
 			y += 0.01f * time;
 			System.out.println("X: " + x + " Y: " + y);
-		}
+		}*/
+
+		if (Keyboard.is_key_pressed(KeyEvent.VK_F))
+			System.out.println("F key is pressed!");
 	}
 	
 }
