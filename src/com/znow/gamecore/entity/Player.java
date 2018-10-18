@@ -10,9 +10,9 @@ public class Player extends Entity
 	private float speed_x = 0.0001f;
 	private float speed_y = 0.0f;
 	
-	public Player(float x, float y, float width, float height)
+	public Player(float x, float y, float width, float height, int color_r, int color_g, int color_b)
 	{
-		super(x, y, width, height);
+		super(x, y, width, height, color_r, color_g, color_b);
 	}
 	
 	@Override

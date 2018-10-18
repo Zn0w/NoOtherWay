@@ -13,7 +13,8 @@ import com.znow.gamecore.input.Keyboard;
 public class Display extends Canvas
 {
 
-	public JFrame window;
+	JFrame window;
+	BufferStrategy bs = null;
 	
 	public Display(String title, int width, int height)
 	{
@@ -32,10 +33,10 @@ public class Display extends Canvas
 
 	public void render(ArrayList<Entity> entities)
 	{
-		BufferStrategy bs = getBufferStrategy();
 		if (bs == null)
 		{
 			createBufferStrategy(3);
+			bs = getBufferStrategy();
 			return;
 		}
 
@@ -47,7 +48,7 @@ public class Display extends Canvas
 
 		for (Entity entity : entities)
 		{
-			g.setColor(Color.GREEN);
+			g.setColor(new Color(entity.color_r, entity.color_g, entity.color_b));
 			g.fillRect(
 				(int) entity.x, 
 				(int) entity.y, 
@@ -58,6 +59,11 @@ public class Display extends Canvas
 
 		g.dispose();
 		bs.show();
+	}
+
+	public JFrame getWindow()
+	{
+		return window;
 	}
 
 };

@@ -47,7 +47,7 @@ public class Main implements Runnable
 	{
 		init();
 		
-		while (game_running && display.window.isDisplayable())
+		while (game_running && display.getWindow().isDisplayable())
 		{
 			update();
 			display.render(entities);
@@ -67,7 +67,8 @@ public class Main implements Runnable
 		game_running = true;
 		display = new Display("No Other Way <Game by Zn0w>", width * scale, height * scale);
 
-		entities.add(new Player(50, 50, 50, 50));
+		entities.add(new Player(50, 50, 50, 50, 0, 255, 0));
+		//entities.add(new Player(50, 50, 50, 50));
 
 		System.out.println("Init game");
 	}
