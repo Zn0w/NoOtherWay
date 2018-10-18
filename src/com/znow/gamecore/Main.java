@@ -67,8 +67,8 @@ public class Main implements Runnable
 		game_running = true;
 		display = new Display("No Other Way <Game by Zn0w>", width * scale, height * scale);
 
-		entities.add(new Player(50, 50, 50, 50, 0, 255, 0));
-		//entities.add(new Player(50, 50, 50, 50));
+		entities.add(new Player(80, 30, 100, 100, 0, 255, 0));
+		entities.add(new Spike(100, 100, 50, 50, 180, 30, 56));
 
 		System.out.println("Init game");
 	}
