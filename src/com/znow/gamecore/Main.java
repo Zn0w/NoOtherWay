@@ -1,81 +1,94 @@
 package com.znow.gamecore;
 
-import com.znow.gamecore.graphics.Display;
-import com.znow.gamecore.entity.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferStrategy;
 
-import java.util.ArrayList;
-
-public class Main implements Runnable
+public class Main extends Canvas implements Runnable
 {
-	
-	public static int width = 120;
-	public static int height = width * 16 / 9;
-	public static int scale = 3;
 
-	private Thread thread;
-	private boolean game_running;
-	
-	Display display;
+	public static int SCREEN_WIDTH = 400;
+	public static int SCREEN_HEIGHT = 400 / 16 * 9;		// 16:9 screen aspect ratio
+	public static int SCREEN_SCALE = 3;
 
-	ArrayList<Entity> entities = new ArrayList<Entity>();
-	
-	public static void main(String[] args)
+	private Thread game_thread;
+	private boolean running = false;
+
+	private JFrame frame;
+	private BufferedImage bi = new BuffredImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_RGB);
+
+	public Main()
 	{
-		Main game = new Main();
-		game.startGame();
+		initGraphics();
 	}
 
-	public synchronized void startGame()
+	private void initGraphics()
 	{
-		thread= new Thread(this);
-		thread.start();
+		setPreferredSize(new Dimension(SCREEN_WIDTH * SCREEN_SCALE, SCREEN_HEIGHT * SCREEN_SCALE));
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setTitle("No Other Way (development version)");
+		frame.add(this);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
-	public synchronized void stopGame()
+	public synchronized void start()
 	{
-		try
+		running = true;
+		game_thread = new Thread(this);
+		game_thread.start();
+	}
+
+	public synchronized void stop()
+	{
+		try {
+			game_thread.join();
+		} catch (InterruptedException e)
 		{
-			thread.join();
-		} catch(Exception e)
-		{
-			e.printStackTrace(System.out);
+			e.printStackTrace();
 		}
 	}
 
-	@Override
 	public void run()
 	{
-		init();
-		
-		while (game_running && display.getWindow().isDisplayable())
+		while (running && frame.isDisplayable())
 		{
 			update();
-			display.render(entities);
+			render();
 		}
 
-		destroy();
+		stop();
+		System.out.println("Game stopped");
 	}
 
 	private void update()
 	{
-		for (Entity entity : entities)
-			entity.update(1.0f); // To add delta handling
+
 	}
 
-	private void init()
+	private void render()
 	{
-		game_running = true;
-		display = new Display("No Other Way <Game by Zn0w>", width * scale, height * scale);
+		BufferStrategy bs = getBufferStrategy();
+		if (bs == null)
+		{
+			createBufferStrategy(3);
+			return;
+		}
 
-		entities.add(new Player(80, 30, 100, 100, 0, 255, 0));
-		entities.add(new Spike(100, 100, 50, 50, 180, 30, 56));
-
-		System.out.println("Init game");
+		Graphics g = bs.getDrawGraphics();
+		g.setColor(Color.GREEN);
+		g.fillRect(0, 0, getWidth(), getHeight());		// background
+		g.dispose();
+		bs.show();
 	}
 
-	private void destroy()
+	public static void main(String[] args)
 	{
-		System.out.println("Destroy game");
+		Main main = new Main();
+		main.start();
 	}
-	
+
 };
