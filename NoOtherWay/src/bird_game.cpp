@@ -3,7 +3,7 @@
 #define OLC_PGE_APPLICATION
 
 #include "olcPixelGameEngine.h"
-
+#include <stdio.h>
 
 int level_width = 450;
 int level_height = 800;
@@ -16,14 +16,9 @@ int player_size = 50;
 
 int spike_size = 50;
 
-struct Player
+struct Entity
 {
 	int x, y, w, h;
-};
-
-struct Spike
-{
-	int x, y, w, l;
 	bool active;
 };
 
@@ -37,9 +32,9 @@ public:
 	}
 
 private:
-	Player player;
+	Entity player;
 	int jump_effect = 0;
-	Spike spikes[32];
+	Entity spikes[32];
 
 public:
 	bool OnUserCreate() override
@@ -50,12 +45,13 @@ public:
 		player.y = level_height / 2;
 		player.w = player_size;
 		player.h = player_size;
+		player.active = true;
 
 		for (int i = 0; i < 16; i++)
 		{
 			spikes[i].active = true;
 			spikes[i].w = spike_size;
-			spikes[i].l = spike_size;
+			spikes[i].h = spike_size;
 			spikes[i].y = 50 * i;
 			spikes[i].x = 0;
 		}
@@ -64,7 +60,7 @@ public:
 		{
 			spikes[i].active = true;
 			spikes[i].w = spike_size;
-			spikes[i].l = -1 * spike_size;
+			spikes[i].h = -1 * spike_size;
 			spikes[i].y = 50 * (i - 16);
 			spikes[i].x = level_width;
 		}
@@ -97,14 +93,15 @@ public:
 
 		if (player.x <= 0 || player.x + player.w >= level_width)
 		{
-			player_Xspeed *= -1;
+ 			player_Xspeed *= -1;
 
 			// increase the x speed by absolute value
-			if (player_Xspeed)
+			if (player_Xspeed > 0)
 				player_Xspeed++;
 			else
 				player_Xspeed--;
 		}
+		printf("%d\n", player_Xspeed);
 
 		if (player.y <= 0 || player.y + player.h >= level_height)
 			return false;
@@ -123,7 +120,7 @@ public:
 				FillTriangle(
 					spikes[i].x, spikes[i].y,
 					spikes[i].x, spikes[i].y + spikes[i].w,
-					spikes[i].x + spikes[i].l, spikes[i].y + spikes[i].w / 2,
+					spikes[i].x + spikes[i].h, spikes[i].y + spikes[i].w / 2,
 					olc::Pixel(200, 0, 0)
 				);
 		}
@@ -137,4 +134,4 @@ int main()
 	Game game;
 	if (game.Construct(level_width, level_height, 1, 1))
 		game.Start();
-}
+} 
