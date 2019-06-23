@@ -3,7 +3,10 @@
 #define OLC_PGE_APPLICATION
 
 #include "olcPixelGameEngine.h"
+
 #include <stdio.h>
+#include <cstdlib>
+#include <ctime>
 
 int level_width = 450;
 int level_height = 800;
@@ -15,6 +18,8 @@ int player_Yspeed = 5;
 int player_size = 50;
 
 int spike_size = 50;
+int spikes_max = 5;
+int spikes_min = 3;
 
 struct Entity
 {
@@ -49,7 +54,6 @@ public:
 
 		for (int i = 0; i < 16; i++)
 		{
-			spikes[i].active = true;
 			spikes[i].w = spike_size;
 			spikes[i].h = spike_size;
 			spikes[i].y = 50 * i;
@@ -58,12 +62,13 @@ public:
 
 		for (int i = 16; i < 32; i++)
 		{
-			spikes[i].active = true;
 			spikes[i].w = spike_size;
 			spikes[i].h = -1 * spike_size;
 			spikes[i].y = 50 * (i - 16);
 			spikes[i].x = level_width;
 		}
+
+		updateSpikes();
 
 		return true;
 	}
@@ -91,7 +96,7 @@ public:
 			jump_effect--;
 		}
 
-		if (player.x <= 0 || player.x + player.w >= level_width)
+		if (levelCompleted())
 		{
  			player_Xspeed *= -1;
 
@@ -100,6 +105,8 @@ public:
 				player_Xspeed++;
 			else
 				player_Xspeed--;
+
+			updateSpikes();
 		}
 		printf("%d\n", player_Xspeed);
 
@@ -127,6 +134,31 @@ public:
 
 		return true;
 	}
+
+	bool levelCompleted()
+	{
+		return player.x <= 0 || player.x + player.w >= level_width;
+	}
+
+	void updateSpikes()
+	{
+		srand((unsigned)time(0));
+		int random_index;
+		int num_of_spikes = spikes_min + int((spikes_max - spikes_min + 1)*rand() / (RAND_MAX + 1.0));
+
+		int lowest = 0;
+		int highest = 32;
+		int range = (highest - lowest) + 1;
+
+		for (int i = 0; i < num_of_spikes; i++)
+		{
+			random_index = lowest + int(range*rand() / (RAND_MAX + 1.0));
+			if (spikes[random_index].active)
+				spikes[random_index].active = false;
+			else
+				spikes[random_index].active = true;
+		}
+	}
 };
 
 int main()
@@ -134,4 +166,4 @@ int main()
 	Game game;
 	if (game.Construct(level_width, level_height, 1, 1))
 		game.Start();
-} 
+}
