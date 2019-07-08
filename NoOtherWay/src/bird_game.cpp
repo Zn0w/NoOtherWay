@@ -39,7 +39,8 @@ public:
 private:
 	Entity player;
 	int jump_effect = 0;
-	Entity spikes[32];
+	Entity left_spikes[16];
+	Entity right_spikes[16];
 
 public:
 	bool OnUserCreate() override
@@ -54,21 +55,21 @@ public:
 
 		for (int i = 0; i < 16; i++)
 		{
-			spikes[i].w = spike_size;
-			spikes[i].h = spike_size;
-			spikes[i].y = 50 * i;
-			spikes[i].x = 0;
+			left_spikes[i].w = spike_size;
+			left_spikes[i].h = spike_size;
+			left_spikes[i].y = 50 * i;
+			left_spikes[i].x = 0;
 		}
 
-		for (int i = 16; i < 32; i++)
+		for (int i = 0; i < 16; i++)
 		{
-			spikes[i].w = spike_size;
-			spikes[i].h = -1 * spike_size;
-			spikes[i].y = 50 * (i - 16);
-			spikes[i].x = level_width;
+			right_spikes[i].w = spike_size;
+			right_spikes[i].h = -1 * spike_size;
+			right_spikes[i].y = 50 * i;
+			right_spikes[i].x = level_width;
 		}
 
-		updateSpikes();
+		updateSpikes(1);
 
 		return true;
 	}
@@ -106,7 +107,7 @@ public:
 			else
 				player_Xspeed--;
 
-			updateSpikes();
+			updateSpikes(player_Xspeed);
 		}
 		printf("%d\n", player_Xspeed);
 
@@ -116,18 +117,32 @@ public:
 		player.x += player_Xspeed;
 		player.y += player_Yspeed;
 
+		/*for (int i = 0; i < 32; i++)
+		{
+			if (spikes[i].active && collide(spikes[i], player)
+				return false;
+		}*/
+
 
 		// draw player
 		FillRect(player.x, player.y, player.w, player.h, olc::Pixel(50, 200, 120));
 
 		// draw spikes
-		for (int i = 0; i < 32; i++)
+		for (int i = 0; i < 16; i++)
 		{
-			if (spikes[i].active)
+			if (left_spikes[i].active)
 				FillTriangle(
-					spikes[i].x, spikes[i].y,
-					spikes[i].x, spikes[i].y + spikes[i].w,
-					spikes[i].x + spikes[i].h, spikes[i].y + spikes[i].w / 2,
+					left_spikes[i].x, left_spikes[i].y,
+					left_spikes[i].x, left_spikes[i].y + left_spikes[i].w,
+					left_spikes[i].x + left_spikes[i].h, left_spikes[i].y + left_spikes[i].w / 2,
+					olc::Pixel(200, 0, 0)
+				);
+			
+			if (right_spikes[i].active)
+				FillTriangle(
+					right_spikes[i].x, right_spikes[i].y,
+					right_spikes[i].x, right_spikes[i].y + right_spikes[i].w,
+					right_spikes[i].x + right_spikes[i].h, right_spikes[i].y + right_spikes[i].w / 2,
 					olc::Pixel(200, 0, 0)
 				);
 		}
@@ -140,24 +155,46 @@ public:
 		return player.x <= 0 || player.x + player.w >= level_width;
 	}
 
-	void updateSpikes()
+	void updateSpikes(int direction)
 	{
 		srand((unsigned)time(0));
 		int random_index;
 		int num_of_spikes = spikes_min + int((spikes_max - spikes_min + 1)*rand() / (RAND_MAX + 1.0));
 
 		int lowest = 0;
-		int highest = 32;
+		int highest = 16;
 		int range = (highest - lowest) + 1;
 
-		for (int i = 0; i < num_of_spikes; i++)
+		if (direction > 0)
 		{
-			random_index = lowest + int(range*rand() / (RAND_MAX + 1.0));
-			if (spikes[random_index].active)
-				spikes[random_index].active = false;
-			else
-				spikes[random_index].active = true;
+			for (int i = 0; i < num_of_spikes; i++)
+			{
+				random_index = lowest + int(range*rand() / (RAND_MAX + 1.0));
+				if (right_spikes[random_index].active)
+					right_spikes[random_index].active = false;
+				else
+					right_spikes[random_index].active = true;
+			}
 		}
+		else
+		{
+			for (int i = 0; i < num_of_spikes; i++)
+			{
+				random_index = lowest + int(range*rand() / (RAND_MAX + 1.0));
+				if (left_spikes[random_index].active)
+					left_spikes[random_index].active = false;
+				else
+					left_spikes[random_index].active = true;
+			} 
+		}
+	}
+
+	bool collide(Entity e1, Entity e2)
+	{
+		return	e1.x < e2.x + e2.w &&
+			e1.x + e1.w > e2.x &&
+			e1.y < e2.y + e2.h &&
+			e1.y + e1.h > e2.y;
 	}
 };
 
