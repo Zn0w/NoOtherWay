@@ -117,11 +117,22 @@ public:
 		player.x += player_Xspeed;
 		player.y += player_Yspeed;
 
-		/*for (int i = 0; i < 32; i++)
+		if (player_Xspeed > 0)
 		{
-			if (spikes[i].active && collide(spikes[i], player)
-				return false;
-		}*/
+			for (int i = 0; i < 16; i++)
+			{
+				if (right_spikes[i].active && collide(right_spikes[i], player))
+					printf("collision, game over\n");
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 16; i++)
+			{
+				if (left_spikes[i].active && collide(left_spikes[i], player))
+					printf("collision, game over\n");
+			}
+		}
 
 
 		// draw player
