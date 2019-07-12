@@ -121,8 +121,17 @@ public:
 		{
 			for (int i = 0; i < 16; i++)
 			{
-				if (right_spikes[i].active && collide(right_spikes[i], player))
-					printf("collision, game over\n");
+				if (right_spikes[i].active)
+				{
+					Entity spike_hitbox;
+					spike_hitbox.x = right_spikes[i].x - spike_size;
+					spike_hitbox.y = right_spikes[i].y;
+					spike_hitbox.w = right_spikes[i].w;
+					spike_hitbox.h = right_spikes[i].h;
+
+					if (collide(spike_hitbox, player))
+						printf("collision, game over\n");
+				}
 			}
 		}
 		else
