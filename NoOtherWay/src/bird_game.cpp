@@ -148,23 +148,27 @@ public:
 		FillRect(player.x, player.y, player.w, player.h, olc::Pixel(50, 200, 120));
 
 		// draw spikes
-		for (int i = 0; i < 16; i++)
+		if (player_Xspeed > 0)
 		{
-			if (left_spikes[i].active)
-				FillTriangle(
-					left_spikes[i].x, left_spikes[i].y,
-					left_spikes[i].x, left_spikes[i].y + left_spikes[i].w,
-					left_spikes[i].x + left_spikes[i].h, left_spikes[i].y + left_spikes[i].w / 2,
-					olc::Pixel(200, 0, 0)
-				);
-			
-			if (right_spikes[i].active)
-				FillTriangle(
-					right_spikes[i].x, right_spikes[i].y,
-					right_spikes[i].x, right_spikes[i].y + right_spikes[i].w,
-					right_spikes[i].x - right_spikes[i].h, right_spikes[i].y + right_spikes[i].w / 2,
-					olc::Pixel(200, 0, 0)
-				);
+			for (int i = 0; i < 16; i++)
+				if (right_spikes[i].active)
+					FillTriangle(
+						right_spikes[i].x, right_spikes[i].y,
+						right_spikes[i].x, right_spikes[i].y + right_spikes[i].w,
+						right_spikes[i].x - right_spikes[i].h, right_spikes[i].y + right_spikes[i].w / 2,
+						olc::Pixel(200, 0, 0)
+					);
+		}
+		else
+		{
+			for (int i = 0; i < 16; i++)
+				if (left_spikes[i].active)
+					FillTriangle(
+						left_spikes[i].x, left_spikes[i].y,
+						left_spikes[i].x, left_spikes[i].y + left_spikes[i].w,
+						left_spikes[i].x + left_spikes[i].h, left_spikes[i].y + left_spikes[i].w / 2,
+						olc::Pixel(200, 0, 0)
+					);
 		}
 
 		return true;
