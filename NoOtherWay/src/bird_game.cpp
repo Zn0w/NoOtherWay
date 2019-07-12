@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 
+// constants
 int level_width = 450;
 int level_height = 800;
 
@@ -33,7 +34,7 @@ class Game : public olc::PixelGameEngine
 public:
 	Game()
 	{
-		sAppName = "Example";
+		sAppName = "No Other Way";
 	}
 
 private:
@@ -41,6 +42,9 @@ private:
 	int jump_effect = 0;
 	Entity left_spikes[16];
 	Entity right_spikes[16];
+
+	bool isPaused;
+	int current_score, best;
 
 public:
 	bool OnUserCreate() override
@@ -71,6 +75,11 @@ public:
 
 		updateSpikes(1);
 
+		isPaused = true;
+
+		current_score = 0;
+		best = 0;
+
 		return true;
 	}
 
@@ -78,6 +87,37 @@ public:
 	{
 		// called once per frame
 
+		if (isPaused)
+		{
+			// draw background
+			for (int x = 0; x < ScreenWidth(); x++)
+				for (int y = 0; y < ScreenHeight(); y++)
+					Draw(x, y, olc::Pixel(120, 250, 250));
+
+			// Draw text
+			DrawString((int32_t) (level_width / 5), (int32_t) (level_height / 10), "No Other Way", olc::WHITE, 3);
+			DrawString((int32_t)(level_width / 5), (int32_t)(level_height / 5), "Best Score: " + std::to_string(best), olc::WHITE, 2);
+			DrawString((int32_t)(level_width / 5), (int32_t)(level_height / 2), "Press SPACE to start", olc::WHITE, 2);
+
+			// start button update
+			olc::HWButton start_key;
+			start_key = GetKey(olc::SPACE);
+			if (start_key.bPressed)
+			{
+				isPaused = false;
+
+				// reset player properties
+				player.x = level_width / 2;
+				player.y = level_height / 2;
+				player.w = player_size;
+				player.h = player_size;
+				player.active = true;
+				player_Xspeed = 5;
+				current_score = 0;
+			}
+
+			return true;
+		}
 
 		// clear screen
 		for (int x = 0; x < ScreenWidth(); x++)
@@ -101,6 +141,8 @@ public:
 		{
  			player_Xspeed *= -1;
 
+			current_score++;
+
 			// increase the x speed by absolute value
 			if (player_Xspeed > 0)
 				player_Xspeed++;
@@ -112,7 +154,11 @@ public:
 		printf("%d\n", player_Xspeed);
 
 		if (player.y <= 0 || player.y + player.h >= level_height)
-			return false;
+		{
+			isPaused = true;
+			updateBestScore();
+			return true;
+		}
 
 		player.x += player_Xspeed;
 		player.y += player_Yspeed;
@@ -130,7 +176,11 @@ public:
 					spike_hitbox.h = right_spikes[i].h;
 
 					if (collide(spike_hitbox, player))
-						printf("collision, game over\n");
+					{
+						isPaused = true;
+						updateBestScore();
+						return true;
+					}
 				}
 			}
 		}
@@ -139,11 +189,18 @@ public:
 			for (int i = 0; i < 16; i++)
 			{
 				if (left_spikes[i].active && collide(left_spikes[i], player))
-					printf("collision, game over\n");
+				{
+					isPaused = true;
+					updateBestScore();
+					return true;
+				}
 			}
 		}
 
 
+		// draw the score
+		DrawString((int32_t)(level_width / 2), (int32_t)(level_height / 10), std::to_string(current_score), olc::BLACK, 5);
+		
 		// draw player
 		FillRect(player.x, player.y, player.w, player.h, olc::Pixel(50, 200, 120));
 
@@ -219,6 +276,12 @@ public:
 			e1.x + e1.w > e2.x &&
 			e1.y < e2.y + e2.h &&
 			e1.y + e1.h > e2.y;
+	}
+
+	void updateBestScore()
+	{
+		if (current_score > best)
+			best = current_score;
 	}
 };
 
