@@ -64,7 +64,7 @@ public:
 		for (int i = 0; i < 16; i++)
 		{
 			right_spikes[i].w = spike_size;
-			right_spikes[i].h = -1 * spike_size;
+			right_spikes[i].h = spike_size;
 			right_spikes[i].y = 50 * i;
 			right_spikes[i].x = level_width;
 		}
@@ -153,7 +153,7 @@ public:
 				FillTriangle(
 					right_spikes[i].x, right_spikes[i].y,
 					right_spikes[i].x, right_spikes[i].y + right_spikes[i].w,
-					right_spikes[i].x + right_spikes[i].h, right_spikes[i].y + right_spikes[i].w / 2,
+					right_spikes[i].x - right_spikes[i].h, right_spikes[i].y + right_spikes[i].w / 2,
 					olc::Pixel(200, 0, 0)
 				);
 		}
