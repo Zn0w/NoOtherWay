@@ -1,0 +1,3 @@
+[ ] polygon collision detection
+[ ] score system (save  the best score)
+[ ] add textures to the game (sprites)
